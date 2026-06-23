@@ -3,6 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { CheckCircle2 } from "lucide-react";
+import { LazyVideo } from "@/components/LazyVideo";
 
 const benefits = [
   "Identify areas of your mental approach that require improvement and use suggested strategies to fix them",
@@ -29,17 +30,11 @@ export function HowItHelps() {
             className="relative order-first lg:order-first"
           >
             <div className="rounded-2xl overflow-hidden border border-border/50 aspect-video bg-surface-card">
-              <video
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="auto"
+              <LazyVideo
+                src="/videos/coaching.mp4"
                 className="w-full h-full object-cover"
                 style={{ objectPosition: "center 80%" }}
-              >
-                <source src="/videos/coaching.mp4" type="video/mp4" />
-              </video>
+              />
               <div className="absolute inset-0 bg-gradient-to-t from-surface/40 via-transparent to-transparent pointer-events-none" />
             </div>
           </motion.div>

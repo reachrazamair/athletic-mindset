@@ -4,6 +4,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { LazyVideo } from "@/components/LazyVideo";
 
 export function CTASection() {
   const ref = useRef(null);
@@ -21,16 +22,10 @@ export function CTASection() {
           {/* Background */}
           <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-surface-card to-accent/10" />
           <div className="absolute inset-0 overflow-hidden rounded-3xl">
-            <video
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="auto"
+            <LazyVideo
+              src="/videos/athlete-3.mp4"
               className="w-full h-full object-cover opacity-25"
-            >
-              <source src="/videos/athlete-3.mp4" type="video/mp4" />
-            </video>
+            />
           </div>
           <div className="absolute inset-0 border border-primary/20 rounded-3xl" />
 

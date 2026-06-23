@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
+import { LazyVideo } from "@/components/LazyVideo";
 
 function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: string }) {
   const [count, setCount] = useState(0);
@@ -46,16 +47,10 @@ export function StatsSection() {
     <section className="relative py-20 md:py-24 overflow-hidden">
       {/* Athletic video background - more visible, positioned to show faces */}
       <div className="absolute inset-0">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
+        <LazyVideo
+          src="/videos/athlete-2.mp4"
           className="w-full h-full object-cover object-center opacity-[0.12]"
-        >
-          <source src="/videos/athlete-2.mp4" type="video/mp4" />
-        </video>
+        />
       </div>
       {/* Subtle top gradient */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />

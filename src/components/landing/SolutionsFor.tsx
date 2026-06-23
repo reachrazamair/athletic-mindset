@@ -2,6 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
+import { LazyVideo } from "@/components/LazyVideo";
 import {
   User,
   Users,
@@ -146,17 +147,11 @@ export function SolutionsFor() {
           {/* Video Visual - shows first on mobile */}
           <div className="relative order-first lg:order-last">
             <div className="rounded-2xl overflow-hidden border border-border/50 aspect-video md:aspect-[4/3] bg-surface-card">
-              <video
+              <LazyVideo
                 key={active.video}
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="auto"
+                src={active.video}
                 className="w-full h-full object-cover"
-              >
-                <source src={active.video} type="video/mp4" />
-              </video>
+              />
               <div className="absolute inset-0 bg-gradient-to-t from-surface/60 via-transparent to-surface/10 pointer-events-none" />
             </div>
             {/* Floating Score Card */}

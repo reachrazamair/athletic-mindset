@@ -2,6 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
+import { LazyVideo } from "@/components/LazyVideo";
 
 const phases = [
   {
@@ -76,16 +77,10 @@ export function MentalFramework() {
     <section className="relative py-20 md:py-28 overflow-hidden" ref={ref}>
       {/* Background video */}
       <div className="absolute inset-0">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
+        <LazyVideo
+          src="/videos/athlete-3.mp4"
           className="w-full h-full object-cover object-top opacity-[0.06]"
-        >
-          <source src="/videos/athlete-3.mp4" type="video/mp4" />
-        </video>
+        />
       </div>
 
       <div className="relative mx-auto max-w-7xl px-5 md:px-6 lg:px-8">
