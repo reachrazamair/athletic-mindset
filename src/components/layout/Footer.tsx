@@ -12,16 +12,16 @@ const footerLinks = {
     { label: "Pricing", href: "/#pricing" },
   ],
   Resources: [
+    { label: "Performance Management", href: "/resources/performance-management" },
     { label: "Research", href: "#" },
-    { label: "Mental Skills Guide", href: "#" },
     { label: "Blog", href: "#" },
     { label: "FAQ", href: "#" },
   ],
   Company: [
-    { label: "About Us", href: "#" },
-    { label: "Contact", href: "#" },
-    { label: "Privacy Policy", href: "#" },
-    { label: "Terms of Service", href: "#" },
+    { label: "About Us", href: "/about" },
+    { label: "Contact", href: "/contact" },
+    { label: "Privacy Policy", href: "/privacy" },
+    { label: "Terms of Service", href: "/terms" },
   ],
 };
 
