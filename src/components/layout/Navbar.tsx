@@ -5,10 +5,10 @@ import Link from "next/link";
 import Image from "next/image";
 
 const navLinks = [
-  { label: "Athletes", href: "#solutions" },
-  { label: "Coaches", href: "#solutions" },
-  { label: "Parents", href: "#solutions" },
-  { label: "Pricing", href: "#pricing" },
+  { label: "Athletes", href: "/athletes" },
+  { label: "Coaches", href: "/coaches" },
+  { label: "Parents", href: "/parents" },
+  { label: "Pricing", href: "/#pricing" },
 ];
 
 export function Navbar() {

@@ -2,15 +2,15 @@
 
 import { Navbar } from "@/components/layout/Navbar";
 import { BottomNav } from "@/components/layout/BottomNav";
-import { HeroSection } from "@/components/sections/Hero";
-import { StatsSection } from "@/components/sections/Stats";
-import { ReportPreview } from "@/components/sections/ReportPreview";
-import { WhatWeMeasure } from "@/components/sections/WhatWeMeasure";
-import { HowItWorks } from "@/components/sections/HowItWorks";
-import { SolutionsFor } from "@/components/sections/SolutionsFor";
-import { Pricing } from "@/components/sections/Pricing";
-import { Testimonials } from "@/components/sections/Testimonials";
-import { CTASection } from "@/components/sections/CTA";
+import { HeroSection } from "@/components/landing/Hero";
+import { StatsSection } from "@/components/landing/Stats";
+import { ReportPreview } from "@/components/landing/ReportPreview";
+import { WhatWeMeasure } from "@/components/landing/WhatWeMeasure";
+import { HowItWorks } from "@/components/landing/HowItWorks";
+import { SolutionsFor } from "@/components/landing/SolutionsFor";
+import { Pricing } from "@/components/landing/Pricing";
+import { Testimonials } from "@/components/landing/Testimonials";
+import { CTASection } from "@/components/landing/CTA";
 import { Footer } from "@/components/layout/Footer";
 
 export default function Home() {

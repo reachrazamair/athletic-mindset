@@ -5,11 +5,11 @@ import Image from "next/image";
 
 const footerLinks = {
   Product: [
-    { label: "Athletes", href: "#solutions" },
-    { label: "Coaches", href: "#solutions" },
-    { label: "Parents", href: "#solutions" },
-    { label: "Organizations", href: "#pricing" },
-    { label: "Pricing", href: "#pricing" },
+    { label: "Athletes", href: "/athletes" },
+    { label: "Coaches", href: "/coaches" },
+    { label: "Parents", href: "/parents" },
+    { label: "Organizations", href: "/#pricing" },
+    { label: "Pricing", href: "/#pricing" },
   ],
   Resources: [
     { label: "Research", href: "#" },

@@ -27,10 +27,10 @@ const navItems = [
     label: "Solutions",
     href: "#solutions",
     submenu: [
-      { label: "For Athletes", href: "#solutions" },
-      { label: "For Parents", href: "#solutions" },
-      { label: "For Coaches", href: "#solutions" },
-      { label: "Pricing", href: "#pricing" },
+      { label: "For Athletes", href: "/athletes" },
+      { label: "For Parents", href: "/parents" },
+      { label: "For Coaches", href: "/coaches" },
+      { label: "Pricing", href: "/#pricing" },
     ],
   },
   {

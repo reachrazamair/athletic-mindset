@@ -52,7 +52,7 @@ export function StatsSection() {
           loop
           playsInline
           preload="auto"
-          className="w-full h-full object-cover object-[center_20%] opacity-[0.12]"
+          className="w-full h-full object-cover object-top opacity-[0.12]"
         >
           <source src="/videos/athlete-2.mp4" type="video/mp4" />
         </video>
