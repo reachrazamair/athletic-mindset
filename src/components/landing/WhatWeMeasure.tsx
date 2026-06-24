@@ -2,6 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
+import { LazyVideo } from "@/components/LazyVideo";
 import {
   Zap,
   Target,
@@ -93,9 +94,15 @@ export function WhatWeMeasure() {
   const filteredFactors = factors.filter((f) => f.phase === activePhase);
 
   return (
-    <section id="what-we-measure" className="relative py-20 md:py-24 lg:py-32" ref={ref}>
-      {/* Background accent */}
-      <div className="absolute inset-0 bg-gradient-to-b from-surface via-surface-light/50 to-surface" />
+    <section id="what-we-measure" className="relative py-24 md:py-32 lg:py-36 overflow-hidden" ref={ref}>
+      {/* Video bg + blue tint for alternating section */}
+      <div className="absolute inset-0">
+        <LazyVideo
+          src="/videos/athlete-1.mp4"
+          className="w-full h-full object-cover object-center opacity-[0.1]"
+        />
+      </div>
+      <div className="absolute inset-0 bg-gradient-to-b from-surface-light via-surface-alt to-surface-light" />
 
       <div className="relative mx-auto max-w-7xl px-5 md:px-6 lg:px-8">
         {/* Header */}

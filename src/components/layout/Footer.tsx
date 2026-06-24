@@ -6,10 +6,10 @@ import Image from "next/image";
 const footerLinks = {
   Product: [
     { label: "Athletes", href: "/athletes" },
-    { label: "Coaches", href: "/coaches" },
     { label: "Parents", href: "/parents" },
-    { label: "Organizations", href: "/#pricing" },
-    { label: "Pricing", href: "/#pricing" },
+    { label: "Coaches", href: "/coaches" },
+    { label: "Club & School", href: "/club" },
+    { label: "Partner Program", href: "/partners" },
   ],
   Resources: [
     { label: "Performance Management", href: "/resources/performance-management" },

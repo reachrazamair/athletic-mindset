@@ -31,7 +31,7 @@ export function HowItHelps() {
           >
             <div className="rounded-2xl overflow-hidden border border-border/50 aspect-video bg-surface-card">
               <LazyVideo
-                src="/videos/coaching.mp4"
+                src="/videos/athlete-3.mp4"
                 className="w-full h-full object-cover"
                 style={{ objectPosition: "center 80%" }}
               />

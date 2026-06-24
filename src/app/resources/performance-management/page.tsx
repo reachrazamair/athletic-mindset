@@ -3,6 +3,7 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { Footer } from "@/components/layout/Footer";
+import { LazyVideo } from "@/components/LazyVideo";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import {
@@ -153,6 +154,13 @@ export default function PerformanceManagementPage() {
         {/* Hero */}
         <section className="relative pt-28 md:pt-36 pb-20 md:pb-28 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent" />
+          <div className="absolute inset-0">
+            <LazyVideo
+              src="/videos/athlete-2.mp4"
+              className="w-full h-full object-cover opacity-[1.5]"
+            />
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-b from-surface/50 via-surface/70 to-surface" />
           <div className="absolute top-20 right-0 w-[500px] h-[500px] rounded-full bg-primary/5 blur-[120px]" />
           <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-accent/5 blur-[100px]" />
 

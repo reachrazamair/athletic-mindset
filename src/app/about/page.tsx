@@ -3,8 +3,9 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { Footer } from "@/components/layout/Footer";
+import { LazyVideo } from "@/components/LazyVideo";
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Brain, Shield, Users, Target, Award, BookOpen } from "lucide-react";
 
 function Section({
@@ -27,6 +28,33 @@ function Section({
       {children}
     </motion.div>
   );
+}
+
+function AnimatedNumber({ target, suffix = "" }: { target: number; suffix?: string }) {
+  const [count, setCount] = useState(0);
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true });
+
+  useEffect(() => {
+    if (isInView) {
+      const duration = 1500;
+      const steps = 40;
+      const increment = target / steps;
+      let current = 0;
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+          setCount(target);
+          clearInterval(timer);
+        } else {
+          setCount(Math.floor(current));
+        }
+      }, duration / steps);
+      return () => clearInterval(timer);
+    }
+  }, [isInView, target]);
+
+  return <span ref={ref}>{count}{suffix}</span>;
 }
 
 const values = [
@@ -68,6 +96,13 @@ const values = [
   },
 ];
 
+const stats = [
+  { number: 22, suffix: "", label: "Dimensions Measured" },
+  { number: 5, suffix: "K+", label: "Athletes Assessed" },
+  { number: 60, suffix: "+", label: "Sports Covered" },
+  { number: 3, suffix: "", label: "Report Types" },
+];
+
 export default function AboutPage() {
   return (
     <>
@@ -75,8 +110,14 @@ export default function AboutPage() {
       <main className="pb-20 md:pb-0">
         {/* Hero */}
         <section className="relative pt-28 md:pt-36 pb-20 md:pb-28 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-b from-accent/5 via-transparent to-transparent" />
-          <div className="absolute top-20 left-0 w-[500px] h-[500px] rounded-full bg-accent/5 blur-[120px]" />
+          <div className="absolute inset-0">
+            <LazyVideo
+              src="/videos/skating.mp4"
+              className="w-full h-full object-cover opacity-[1.5]"
+            />
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-b from-surface/50 via-surface/70 to-surface" />
+          <div className="absolute top-20 left-0 w-[500px] h-[500px] rounded-full bg-primary/8 blur-[120px]" />
 
           <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
             <motion.div
@@ -85,10 +126,10 @@ export default function AboutPage() {
               transition={{ duration: 0.7 }}
               className="max-w-3xl"
             >
-              <span className="text-xs font-semibold uppercase tracking-widest text-accent mb-4 block">
+              <span className="text-xs font-semibold uppercase tracking-widest text-primary-light mb-4 block">
                 Our Story
               </span>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] mb-6">
+              <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-[1.05] mb-6 uppercase">
                 Where Science Meets the{" "}
                 <span className="gradient-text">Athletic Mind</span>
               </h1>
@@ -102,15 +143,15 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Mission */}
-        <section className="py-16 md:py-24 border-t border-border/30">
+        {/* Mission + Stats */}
+        <section className="py-20 md:py-28 border-t border-border/30">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 items-center">
               <Section>
                 <span className="text-xs font-semibold uppercase tracking-widest text-primary-light mb-4 block">
                   Our Mission
                 </span>
-                <h2 className="text-2xl md:text-4xl font-bold mb-6">
+                <h2 className="font-display text-2xl md:text-4xl font-black mb-6 uppercase tracking-tight">
                   Make the mental game measurable, trainable, and accessible
                 </h2>
                 <p className="text-text-secondary leading-relaxed mb-4">
@@ -128,45 +169,52 @@ export default function AboutPage() {
                 </p>
               </Section>
 
-              <Section>
-                <div className="rounded-2xl border border-border/50 bg-surface-card/50 p-8 md:p-10">
-                  <div className="grid grid-cols-2 gap-6">
-                    <div className="text-center">
-                      <div className="text-3xl md:text-4xl font-bold gradient-text mb-1">
-                        22
-                      </div>
-                      <div className="text-xs text-text-muted">Dimensions Measured</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-3xl md:text-4xl font-bold gradient-text mb-1">
-                        10K+
-                      </div>
-                      <div className="text-xs text-text-muted">Athletes Assessed</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-3xl md:text-4xl font-bold gradient-text mb-1">
-                        60+
-                      </div>
-                      <div className="text-xs text-text-muted">Sports Covered</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-3xl md:text-4xl font-bold gradient-text mb-1">
-                        3
-                      </div>
-                      <div className="text-xs text-text-muted">Report Types</div>
-                    </div>
+              {/* Stats card — animated counters */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.6 }}
+              >
+                <div className="rounded-2xl border border-border-light bg-surface-card p-8 md:p-10 shadow-[0_10px_40px_rgba(0,0,0,0.4)]">
+                  <div className="grid grid-cols-2 gap-8">
+                    {stats.map((stat, i) => (
+                      <motion.div
+                        key={stat.label}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5, delay: i * 0.12 }}
+                        className="text-center"
+                      >
+                        <div className="text-3xl md:text-4xl font-black gradient-text mb-1 font-display">
+                          <AnimatedNumber target={stat.number} suffix={stat.suffix} />
+                        </div>
+                        <div className="text-xs text-text-muted">{stat.label}</div>
+                      </motion.div>
+                    ))}
                   </div>
                 </div>
-              </Section>
+              </motion.div>
             </div>
           </div>
         </section>
 
         {/* Values */}
-        <section className="py-16 md:py-24 border-t border-border/30 bg-surface-light/30">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <section className="relative py-20 md:py-28 border-t border-border/30 overflow-hidden">
+          {/* Blue tint bg */}
+          <div className="absolute inset-0 bg-gradient-to-b from-surface-light via-surface-alt to-surface-light" />
+          <div className="absolute inset-0">
+            <LazyVideo
+              src="/videos/parents.mp4"
+              className="w-full h-full object-cover opacity-[0.08]"
+            />
+          </div>
+          <div className="absolute inset-0 bg-surface-light/90" />
+
+          <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
             <Section className="text-center mb-12 md:mb-16">
-              <h2 className="text-2xl md:text-4xl font-bold mb-4">
+              <h2 className="font-display text-2xl md:text-4xl font-black mb-4 uppercase tracking-tight">
                 What We Believe
               </h2>
               <p className="text-text-secondary max-w-2xl mx-auto">
@@ -175,20 +223,21 @@ export default function AboutPage() {
               </p>
             </Section>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
               {values.map((value, i) => (
                 <motion.div
                   key={value.title}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.4, delay: i * 0.08 }}
-                  className="rounded-2xl border border-border/50 bg-surface-card/50 p-6 md:p-8"
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                  className="rounded-2xl border border-border-light bg-surface-card p-6 md:p-8 hover:border-primary/30 transition-colors duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.3)]"
                 >
                   <div className="inline-flex rounded-xl bg-primary/10 p-3 mb-4">
                     <value.icon size={22} className="text-primary-light" />
                   </div>
-                  <h3 className="text-base font-semibold mb-2">{value.title}</h3>
+                  <h3 className="text-base font-bold mb-2">{value.title}</h3>
                   <p className="text-sm text-text-secondary leading-relaxed">
                     {value.description}
                   </p>
@@ -199,24 +248,37 @@ export default function AboutPage() {
         </section>
 
         {/* Team */}
-        <section className="py-16 md:py-24 border-t border-border/30">
+        <section className="py-20 md:py-28 border-t border-border/30">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <Section className="max-w-3xl">
               <span className="text-xs font-semibold uppercase tracking-widest text-primary-light mb-4 block">
                 The Team
               </span>
-              <h2 className="text-2xl md:text-4xl font-bold mb-8">
+              <h2 className="font-display text-2xl md:text-4xl font-black mb-10 uppercase tracking-tight">
                 Who&apos;s Behind Athletic Mindset
               </h2>
 
-              <div className="space-y-8">
-                <div className="rounded-2xl border border-border/50 bg-surface-card/30 p-6 md:p-8">
-                  <h3 className="text-lg font-bold mb-1">
-                    Brian J. Marentette, Ph.D.
-                  </h3>
-                  <p className="text-sm text-primary-light mb-3">
-                    Founder · Partner
-                  </p>
+              <div className="space-y-6">
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.6 }}
+                  className="rounded-2xl border border-border-light bg-surface-card p-6 md:p-8 shadow-[0_8px_30px_rgba(0,0,0,0.4)]"
+                >
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary to-primary-light flex items-center justify-center flex-shrink-0">
+                      <span className="text-white font-bold text-sm">BM</span>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold">
+                        Brian J. Marentette, Ph.D.
+                      </h3>
+                      <p className="text-sm text-primary-light">
+                        Founder · Partner
+                      </p>
+                    </div>
+                  </div>
                   <div className="space-y-3 text-sm text-text-secondary leading-relaxed">
                     <p>
                       Dr. Marentette is the founder and president of Sports Mentalytics
@@ -252,11 +314,24 @@ export default function AboutPage() {
                       Department, and the Chicago Police Department.
                     </p>
                   </div>
-                </div>
+                </motion.div>
 
-                <div className="rounded-2xl border border-border/50 bg-surface-card/30 p-6 md:p-8">
-                  <h3 className="text-lg font-bold mb-1">Casey Cittadino</h3>
-                  <p className="text-sm text-primary-light mb-3">Partner</p>
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.6, delay: 0.15 }}
+                  className="rounded-2xl border border-border-light bg-surface-card p-6 md:p-8 shadow-[0_8px_30px_rgba(0,0,0,0.4)]"
+                >
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary to-primary-light flex items-center justify-center flex-shrink-0">
+                      <span className="text-white font-bold text-sm">CC</span>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold">Casey Cittadino</h3>
+                      <p className="text-sm text-primary-light">Partner</p>
+                    </div>
+                  </div>
                   <div className="space-y-3 text-sm text-text-secondary leading-relaxed">
                     <p>
                       In 2001, Casey was an un-recruited high school athlete who got a
@@ -280,7 +355,7 @@ export default function AboutPage() {
                       performance.
                     </p>
                   </div>
-                </div>
+                </motion.div>
               </div>
             </Section>
           </div>

@@ -9,7 +9,7 @@ const navItems = [
   {
     icon: Home,
     label: "Home",
-    href: "#",
+    href: "/",
     submenu: null,
   },
   {
@@ -24,13 +24,14 @@ const navItems = [
   },
   {
     icon: Trophy,
-    label: "Solutions",
+    label: "For You",
     href: "#solutions",
     submenu: [
-      { label: "For Athletes", href: "/athletes" },
-      { label: "For Parents", href: "/parents" },
-      { label: "For Coaches", href: "/coaches" },
-      { label: "Pricing", href: "/#pricing" },
+      { label: "Athletes", href: "/athletes" },
+      { label: "Parents", href: "/parents" },
+      { label: "Coaches", href: "/coaches" },
+      { label: "Club & School", href: "/club" },
+      { label: "Partner Program", href: "/partners" },
     ],
   },
   {

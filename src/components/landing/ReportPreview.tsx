@@ -4,6 +4,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { ArrowRight, Lock } from "lucide-react";
 import Link from "next/link";
+import { LazyVideo } from "@/components/LazyVideo";
 
 const sampleScores = [
   { label: "Mental Toughness", score: 68, band: "High" },
@@ -17,9 +18,9 @@ const sampleScores = [
 ];
 
 function ScoreBar({ label, score, band, index }: { label: string; score: number; band: string; index: number }) {
-  const percentage = ((score - 20) / 60) * 100; // T-score range 20-80 mapped to 0-100%
+  const percentage = ((score - 20) / 60) * 100;
   const getColor = (s: number) => {
-    if (s >= 61) return "from-primary to-accent";
+    if (s >= 61) return "from-primary to-primary-light";
     if (s >= 45) return "from-primary/70 to-primary";
     return "from-orange-500/70 to-orange-400";
   };
@@ -55,22 +56,28 @@ export function ReportPreview() {
   const isInView = useInView(ref, { once: true, margin: "-50px" });
 
   return (
-    <section className="relative py-20 md:py-32 overflow-hidden" ref={ref}>
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-surface via-surface-light/50 to-surface" />
+    <section className="relative py-24 md:py-36 overflow-hidden" ref={ref}>
+      {/* Video background */}
+      <div className="absolute inset-0">
+        <LazyVideo
+          src="/videos/athlete-3.mp4"
+          className="w-full h-full object-cover object-center opacity-[0.8]"
+        />
+      </div>
+      <div className="absolute inset-0 bg-gradient-to-b from-surface/60 via-surface/75 to-surface/90" />
 
       <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12 md:mb-16"
+          transition={{ duration: 0.7 }}
+          className="text-center mb-14 md:mb-20"
         >
           <span className="text-xs font-semibold uppercase tracking-widest text-primary-light mb-4 block">
             Your Report
           </span>
-          <h2 className="text-2xl md:text-5xl font-bold mb-4 md:mb-6">
+          <h2 className="font-display text-2xl md:text-5xl font-black mb-5 uppercase tracking-tight">
             See What You&apos;ll{" "}
             <span className="gradient-text">Discover</span>
           </h2>
@@ -82,28 +89,42 @@ export function ReportPreview() {
 
         {/* Report Card */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          initial={{ opacity: 0, y: 50, scale: 0.97 }}
+          animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+          transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
           className="max-w-2xl mx-auto"
         >
-          <div className="rounded-2xl md:rounded-3xl border border-border/50 bg-surface-card/80 overflow-hidden">
-            {/* Report Header */}
-            <div className="p-5 md:p-8 border-b border-border/50">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs text-text-muted uppercase tracking-wider mb-1">
+          <div className="rounded-2xl md:rounded-3xl border border-border/50 bg-surface-card/90 backdrop-blur-sm overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
+            {/* Report Header — score circle centered properly */}
+            <div className="p-6 md:p-8 border-b border-border/50">
+              <div className="flex flex-col items-center text-center">
+                {/* Score Circle */}
+                <motion.div
+                  initial={{ scale: 0, rotate: -180 }}
+                  animate={isInView ? { scale: 1, rotate: 0 } : {}}
+                  transition={{ duration: 0.8, delay: 0.4, type: "spring", stiffness: 200 }}
+                  className="relative mb-3"
+                >
+                  <div className="h-20 w-20 md:h-24 md:w-24 rounded-full bg-gradient-to-br from-primary to-primary-light flex items-center justify-center shadow-[0_0_30px_rgba(37,99,235,0.3)]">
+                    <span className="text-white font-black text-2xl md:text-3xl">62</span>
+                  </div>
+                  {/* Rotating ring */}
+                  <motion.div
+                    className="absolute inset-[-4px] rounded-full border-2 border-transparent border-t-primary/40"
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                  />
+                </motion.div>
+                <p className="text-xs md:text-sm text-text-muted font-medium">
+                  Total AM Score
+                </p>
+                <div className="mt-4 w-full text-left">
+                  <p className="text-[10px] text-text-muted uppercase tracking-wider mb-0.5">
                     Sample Athlete Report
                   </p>
                   <h3 className="text-lg md:text-xl font-bold text-text-primary">
                     Athletic Mindset Profile
                   </h3>
-                </div>
-                <div className="text-center">
-                  <div className="h-14 w-14 md:h-16 md:w-16 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-                    <span className="text-white font-bold text-lg md:text-xl">62</span>
-                  </div>
-                  <p className="text-[10px] md:text-xs text-text-muted mt-1">Total AM Score</p>
                 </div>
               </div>
             </div>
@@ -136,15 +157,20 @@ export function ReportPreview() {
                 </p>
               </div>
               {/* Lock overlay */}
-              <div className="absolute inset-0 flex items-center justify-center bg-surface-card/60">
-                <div className="text-center">
+              <div className="absolute inset-0 flex items-center justify-center bg-surface-card/70 backdrop-blur-[2px]">
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ delay: 1, duration: 0.5 }}
+                  className="text-center"
+                >
                   <Lock className="h-6 w-6 text-primary-light mx-auto mb-2" />
                   <p className="text-sm font-medium text-text-primary mb-3">
                     Take the assessment to unlock your full Gameplan
                   </p>
                   <Link
                     href="#assessment"
-                    className="group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-2.5 text-sm font-medium text-white hover:bg-primary-light transition-all active:scale-95"
+                    className="group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-2.5 text-sm font-medium text-white hover:bg-primary-light transition-all hover:shadow-[0_0_20px_rgba(37,99,235,0.4)] active:scale-95"
                   >
                     Get My Report
                     <ArrowRight
@@ -152,7 +178,7 @@ export function ReportPreview() {
                       className="group-hover:translate-x-1 transition-transform"
                     />
                   </Link>
-                </div>
+                </motion.div>
               </div>
             </div>
           </div>

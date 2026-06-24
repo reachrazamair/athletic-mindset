@@ -23,7 +23,7 @@ export function AthleteCTA() {
           <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-surface-card to-accent/10" />
           <div className="absolute inset-0 overflow-hidden rounded-2xl md:rounded-3xl">
             <LazyVideo
-              src="/videos/athlete-1.mp4"
+              src="/videos/parents.mp4"
               className="w-full h-full object-cover opacity-20"
             />
           </div>

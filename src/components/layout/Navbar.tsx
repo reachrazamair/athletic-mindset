@@ -6,9 +6,10 @@ import Image from "next/image";
 
 const navLinks = [
   { label: "Athletes", href: "/athletes" },
-  { label: "Coaches", href: "/coaches" },
   { label: "Parents", href: "/parents" },
-  { label: "Pricing", href: "/#pricing" },
+  { label: "Coaches", href: "/coaches" },
+  { label: "Club & School", href: "/club" },
+  { label: "Partner Program", href: "/partners" },
 ];
 
 export function Navbar() {
@@ -17,7 +18,7 @@ export function Navbar() {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className="fixed top-0 left-0 right-0 z-50 glass border-b border-border/50 hidden md:block"
+      className="fixed top-0 left-0 right-0 z-50 glass border-b border-border/30 hidden md:block"
     >
       <nav className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">

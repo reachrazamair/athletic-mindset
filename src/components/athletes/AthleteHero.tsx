@@ -46,28 +46,24 @@ export function AthleteHero() {
 
       {/* Center: Content */}
       <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 lg:px-8">
-        {/* For Athletes Badge */}
-        <motion.div
+        {/* Bold Statement */}
+        <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 backdrop-blur-sm px-4 py-1.5 mb-5"
+          className="text-sm md:text-base text-text-secondary mb-3 md:mb-4 text-center"
         >
-          <span className="text-xs font-semibold text-primary-light uppercase tracking-wider">
-            For Athletes
-          </span>
-        </motion.div>
+          Don&apos;t just know your mental game.
+        </motion.p>
 
         {/* Headline */}
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="text-[32px] sm:text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-4 md:mb-6 text-center"
+          className="font-display text-[32px] sm:text-4xl md:text-6xl lg:text-7xl font-black tracking-tight leading-[1.05] mb-4 md:mb-6 text-center uppercase"
         >
-          Know Your Mental Game.
-          <br />
-          <span className="gradient-text">Own It.</span>
+          Own It. <span className="gradient-text">So It Doesn&apos;t Own You.</span>
         </motion.h1>
 
         {/* Subheadline */}
@@ -75,11 +71,11 @@ export function AthleteHero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="mx-auto max-w-md md:max-w-xl text-[15px] md:text-xl text-text-secondary leading-relaxed mb-7 md:mb-10 text-center"
+          className="mx-auto max-w-md md:max-w-xl text-[15px] md:text-lg text-text-secondary leading-relaxed mb-7 md:mb-10 text-center"
         >
-          Get your complete mental performance profile across{" "}
-          <span className="text-text-primary font-medium">22 dimensions</span>.
-          Understand your strengths. Fix your gaps. Compete at your best.
+          Get your complete mental performance profile — scored across{" "}
+          <span className="text-text-primary font-medium">22 dimensions</span>,
+          benchmarked against athletes in your sport.
         </motion.p>
 
         {/* CTA */}

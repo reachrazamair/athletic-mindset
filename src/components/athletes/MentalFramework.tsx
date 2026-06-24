@@ -78,8 +78,8 @@ export function MentalFramework() {
       {/* Background video */}
       <div className="absolute inset-0">
         <LazyVideo
-          src="/videos/athlete-3.mp4"
-          className="w-full h-full object-cover object-top opacity-[0.06]"
+          src="/videos/coaching.mp4"
+          className="w-full h-full object-cover object-center opacity-[0.18]"
         />
       </div>
 

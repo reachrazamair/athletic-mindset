@@ -11,7 +11,6 @@ const steps = [
     title: "Take the Assessment",
     description:
       "Complete our psychologist-designed assessment covering all 22 dimensions of mental performance. Takes about 15 minutes.",
-    visual: "assessment",
   },
   {
     number: "02",
@@ -19,7 +18,6 @@ const steps = [
     title: "Get Your Scores",
     description:
       "Receive your T-scores across all 8 factors, benchmarked against thousands of athletes. See exactly where you stand.",
-    visual: "scores",
   },
   {
     number: "03",
@@ -27,7 +25,6 @@ const steps = [
     title: "Read Your Gameplan",
     description:
       "Get a personalized report with actionable steps — written differently for athletes, parents, and coaches.",
-    visual: "gameplan",
   },
   {
     number: "04",
@@ -35,7 +32,6 @@ const steps = [
     title: "Train & Improve",
     description:
       "Follow your mental skills routines, track progress over time, and reassess to see your growth.",
-    visual: "improve",
   },
 ];
 
@@ -44,19 +40,27 @@ export function HowItWorks() {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="how-it-works" className="relative py-20 md:py-24 lg:py-32" ref={ref}>
-      <div className="mx-auto max-w-7xl px-5 md:px-6 lg:px-8">
+    <section
+      id="how-it-works"
+      className="relative py-24 md:py-32 lg:py-40 overflow-hidden"
+      ref={ref}
+    >
+      {/* Blue-tinted contrast background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#030508] via-[#0a0e14] to-[#030508]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(37,99,235,0.05)_0%,_transparent_70%)]" />
+
+      <div className="relative mx-auto max-w-7xl px-5 md:px-6 lg:px-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12 md:mb-20"
+          transition={{ duration: 0.7 }}
+          className="text-center mb-16 md:mb-24"
         >
           <span className="text-xs font-semibold uppercase tracking-widest text-primary-light mb-4 block">
             How It Works
           </span>
-          <h2 className="text-2xl md:text-5xl font-bold mb-4 md:mb-6">
+          <h2 className="font-display text-2xl md:text-5xl font-black mb-5 uppercase tracking-tight">
             From Assessment to{" "}
             <span className="gradient-text">Action</span>
           </h2>
@@ -66,39 +70,55 @@ export function HowItWorks() {
           </p>
         </motion.div>
 
-        {/* Steps */}
+        {/* Steps — horizontal on desktop, vertical on mobile */}
         <div className="relative">
           {/* Connecting Line - desktop */}
-          <div className="hidden lg:block absolute top-12 left-[calc(12.5%+2.5rem)] right-[calc(12.5%+2.5rem)] h-px z-0">
-            <div className="h-full bg-gradient-to-r from-primary/30 via-accent/30 to-primary/30" />
+          <div className="hidden lg:block absolute top-14 left-[calc(12.5%+2rem)] right-[calc(12.5%+2rem)] h-px z-0">
+            <motion.div
+              initial={{ scaleX: 0 }}
+              animate={isInView ? { scaleX: 1 } : {}}
+              transition={{ duration: 1.2, delay: 0.5, ease: "easeOut" }}
+              className="h-full bg-gradient-to-r from-primary/40 via-primary/20 to-primary/40 origin-left"
+            />
           </div>
 
           {/* Mobile vertical line */}
-          <div className="md:hidden absolute top-8 bottom-8 left-8 w-px bg-gradient-to-b from-primary/30 via-accent/30 to-primary/30" />
+          <div className="md:hidden absolute top-8 bottom-8 left-8 w-px">
+            <motion.div
+              initial={{ scaleY: 0 }}
+              animate={isInView ? { scaleY: 1 } : {}}
+              transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
+              className="h-full bg-gradient-to-b from-primary/40 via-primary/20 to-primary/40 origin-top"
+            />
+          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10">
             {steps.map((step, index) => {
               const Icon = step.icon;
               return (
                 <motion.div
                   key={step.number}
-                  initial={{ opacity: 0, y: 40 }}
+                  initial={{ opacity: 0, y: 50 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.5, delay: index * 0.15 }}
-                  className="relative md:text-center group flex md:flex-col items-start md:items-center gap-4 md:gap-0 pl-14 md:pl-0"
+                  transition={{ duration: 0.6, delay: 0.3 + index * 0.18 }}
+                  className="relative md:text-center group flex md:flex-col items-start md:items-center gap-5 md:gap-0 pl-16 md:pl-0"
                 >
-                  {/* Step Number + Icon */}
-                  <div className="relative inline-flex flex-col items-center md:mb-6 absolute left-0 md:relative">
-                    <div className="relative z-10 h-12 w-12 md:h-16 md:w-16 rounded-xl md:rounded-2xl bg-surface-card border border-border/50 flex items-center justify-center group-hover:border-primary/50 group-hover:glow transition-all duration-300">
-                      <Icon className="h-5 w-5 md:h-7 md:w-7 text-primary-light" />
-                    </div>
-                    <span className="absolute -top-2 -right-2 md:-top-3 md:-right-3 z-20 text-[10px] md:text-xs font-bold text-primary-light bg-surface border border-primary/30 rounded-full h-5 w-5 md:h-7 md:w-7 flex items-center justify-center shadow-md">
+                  {/* Step Icon */}
+                  <div className="relative inline-flex flex-col items-center md:mb-7 absolute left-0 md:relative">
+                    <motion.div
+                      whileHover={{ scale: 1.08 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                      className="relative z-10 h-14 w-14 md:h-16 md:w-16 rounded-2xl bg-surface-card border border-border/40 flex items-center justify-center group-hover:border-primary/50 group-hover:shadow-[0_0_30px_rgba(37,99,235,0.15)] transition-all duration-500"
+                    >
+                      <Icon className="h-6 w-6 md:h-7 md:w-7 text-primary-light" />
+                    </motion.div>
+                    <span className="absolute -top-2.5 -right-2.5 z-20 text-[10px] md:text-xs font-black text-primary-light bg-surface border border-primary/30 rounded-full h-6 w-6 md:h-7 md:w-7 flex items-center justify-center">
                       {step.number}
                     </span>
                   </div>
 
                   <div className="md:text-center">
-                    <h3 className="text-base md:text-lg font-semibold text-text-primary mb-1 md:mb-3">
+                    <h3 className="text-base md:text-lg font-bold text-text-primary mb-2 md:mb-3">
                       {step.title}
                     </h3>
                     <p className="text-xs md:text-sm text-text-secondary leading-relaxed">

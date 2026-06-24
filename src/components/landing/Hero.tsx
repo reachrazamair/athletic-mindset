@@ -56,7 +56,7 @@ export function HeroSection() {
         >
           <span className="h-2 w-2 rounded-full bg-primary animate-pulse" />
           <span className="text-xs font-medium text-text-secondary">
-            Trusted by 10,000+ athletes nationwide
+            Trusted by 5,000+ athletes nationwide
           </span>
         </motion.div>
 
@@ -65,7 +65,7 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="text-[32px] sm:text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-4 md:mb-6 text-center"
+          className="font-display text-[32px] sm:text-4xl md:text-6xl lg:text-7xl font-black tracking-tight leading-[1.05] mb-4 md:mb-6 text-center uppercase"
         >
           We Measure Your
           <br />
@@ -77,11 +77,11 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="mx-auto max-w-md md:max-w-2xl text-[15px] md:text-xl text-text-secondary leading-relaxed mb-7 md:mb-10 text-center"
+          className="mx-auto max-w-md md:max-w-2xl text-[15px] md:text-lg text-text-secondary leading-relaxed mb-7 md:mb-10 text-center"
         >
-          The most comprehensive mental performance assessment in sports.{" "}
-          <span className="text-text-primary font-medium">22 dimensions</span>.
-          Personalized gameplan. 15 minutes.
+          The only psychologist-engineered assessment that measures{" "}
+          <span className="text-text-primary font-medium">22 dimensions</span>{" "}
+          of your mental game — in 15 minutes. So you can train it.
         </motion.p>
 
         {/* Single CTA */}

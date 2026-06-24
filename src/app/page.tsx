@@ -1,5 +1,7 @@
 "use client";
 
+import { useState, useCallback } from "react";
+import { motion } from "framer-motion";
 import { Navbar } from "@/components/layout/Navbar";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { HeroSection } from "@/components/landing/Hero";
@@ -8,28 +10,40 @@ import { ReportPreview } from "@/components/landing/ReportPreview";
 import { WhatWeMeasure } from "@/components/landing/WhatWeMeasure";
 import { HowItWorks } from "@/components/landing/HowItWorks";
 import { SolutionsFor } from "@/components/landing/SolutionsFor";
-import { Pricing } from "@/components/landing/Pricing";
 import { Testimonials } from "@/components/landing/Testimonials";
 import { CTASection } from "@/components/landing/CTA";
 import { Footer } from "@/components/layout/Footer";
+import { IntroAnimation } from "@/components/IntroAnimation";
 
 export default function Home() {
+  const [showIntro, setShowIntro] = useState(true);
+
+  const handleIntroComplete = useCallback(() => {
+    setShowIntro(false);
+  }, []);
+
   return (
     <>
-      <Navbar />
-      <main className="pb-20 md:pb-0">
-        <HeroSection />
-        <StatsSection />
-        <ReportPreview />
-        <WhatWeMeasure />
-        <HowItWorks />
-        <SolutionsFor />
-        <Pricing />
-        <Testimonials />
-        <CTASection />
-      </main>
-      <Footer />
-      <BottomNav />
+      {showIntro && <IntroAnimation onComplete={handleIntroComplete} />}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: showIntro ? 0 : 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        <Navbar />
+        <main className="pb-20 md:pb-0">
+          <HeroSection />
+          <StatsSection />
+          <ReportPreview />
+          <WhatWeMeasure />
+          <HowItWorks />
+          <SolutionsFor />
+          <Testimonials />
+          <CTASection />
+        </main>
+        <Footer />
+        <BottomNav />
+      </motion.div>
     </>
   );
 }

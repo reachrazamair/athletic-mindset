@@ -3,6 +3,7 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { Footer } from "@/components/layout/Footer";
+import { LazyVideo } from "@/components/LazyVideo";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import {
@@ -76,6 +77,13 @@ export default function ContactPage() {
       <main className="pb-20 md:pb-0">
         {/* Hero */}
         <section className="relative pt-28 md:pt-36 pb-12 md:pb-16 overflow-hidden">
+          <div className="absolute inset-0">
+            <LazyVideo
+              src="/videos/coaching.mp4"
+              className="w-full h-full object-cover opacity-[1.5]"
+            />
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-b from-surface/50 via-surface/80 to-surface" />
           <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent" />
           <div className="absolute top-20 right-0 w-[400px] h-[400px] rounded-full bg-primary/5 blur-[100px]" />
 
@@ -446,7 +454,7 @@ export default function ContactPage() {
                 </div>
 
                 {/* Team pricing CTA */}
-                <div className="rounded-2xl border border-primary/20 bg-primary/5 p-6">
+                {/* <div className="rounded-2xl border border-primary/20 bg-primary/5 p-6">
                   <div className="flex items-center gap-2 mb-3">
                     <Users size={16} className="text-primary-light" />
                     <h3 className="text-sm font-semibold">
@@ -484,7 +492,7 @@ export default function ContactPage() {
                     View pricing tiers
                     <ArrowRight size={12} />
                   </Link>
-                </div>
+                </div> */}
 
                 {/* Quick help */}
                 <div className="rounded-2xl border border-border/50 bg-surface-card/50 p-6">
