@@ -16,7 +16,7 @@ export function HeroSection() {
           loop
           playsInline
           preload="auto"
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover opacity-[0.7]"
         >
           <source src="/videos/athlete-1.mp4" type="video/mp4" />
         </video>
@@ -114,6 +114,23 @@ export function HeroSection() {
         transition={{ duration: 0.8, delay: 1 }}
         className="relative z-10 pb-20 md:pb-24"
       >
+        {/* PLL Partnership */}
+        <div className="flex items-center justify-center mb-6">
+          <div className="flex items-center gap-3 rounded-full border border-white/10 bg-surface-card/40 backdrop-blur-sm px-4 py-2">
+            <Image
+              src="/pll-logo-image.jpeg"
+              alt="PLL Academy"
+              width={48}
+              height={48}
+              className="h-7 w-7 md:h-8 md:w-8 rounded-full object-cover"
+              unoptimized
+            />
+            <span className="text-[12px] md:text-sm text-text-secondary font-medium">
+              Official PLL Academy Partner
+            </span>
+          </div>
+        </div>
+
         <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8 text-text-muted text-xs md:text-sm px-6">
           <div className="flex items-center gap-1.5">
             <svg className="h-3.5 w-3.5 text-primary-light" fill="currentColor" viewBox="0 0 20 20">
