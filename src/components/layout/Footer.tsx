@@ -13,9 +13,9 @@ const footerLinks = {
   ],
   Resources: [
     { label: "Performance Management", href: "/resources/performance-management" },
-    { label: "Research", href: "#" },
-    { label: "Blog", href: "#" },
-    { label: "FAQ", href: "#" },
+    { label: "Research", href: "/research" },
+    { label: "Blog", href: "/blog" },
+    { label: "FAQ", href: "/faq" },
   ],
   Company: [
     { label: "About Us", href: "/about" },
