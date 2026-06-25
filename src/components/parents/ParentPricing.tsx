@@ -110,6 +110,15 @@ export function ParentPricing() {
           >
             Yearly
           </span>
+          {isYearly && (
+            <motion.span
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="text-xs font-medium text-primary-light bg-primary/10 px-2 py-0.5 rounded-full"
+            >
+              Save 3%
+            </motion.span>
+          )}
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
