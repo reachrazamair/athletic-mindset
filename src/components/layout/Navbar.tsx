@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 const navLinks = [
   { label: "Athletes", href: "/athletes" },
@@ -13,6 +14,8 @@ const navLinks = [
 ];
 
 export function Navbar() {
+  const pathname = usePathname();
+
   return (
     <motion.header
       initial={{ y: -100, opacity: 0 }}
@@ -37,15 +40,34 @@ export function Navbar() {
 
           {/* Desktop Nav */}
           <div className="flex items-center gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.label}
-                href={link.href}
-                className="text-sm text-text-secondary hover:text-text-primary transition-colors duration-200"
-              >
-                {link.label}
-              </Link>
-            ))}
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  className="relative text-sm transition-colors duration-200 py-1"
+                >
+                  <span className={isActive ? "text-white font-medium" : "text-text-secondary hover:text-text-primary"}>
+                    {link.label}
+                  </span>
+
+                  {/* Active indicator — glowing dot + gradient line */}
+                  {isActive && (
+                    <motion.span
+                      layoutId="nav-active"
+                      className="absolute -bottom-[19px] left-0 right-0 h-[2px]"
+                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    >
+                      {/* Gradient line */}
+                      <span className="block w-full h-full rounded-full bg-gradient-to-r from-transparent via-primary to-transparent" />
+                      {/* Center glow dot */}
+                      <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(37,99,235,0.8),0_0_16px_rgba(37,99,235,0.4)]" />
+                    </motion.span>
+                  )}
+                </Link>
+              );
+            })}
           </div>
 
           {/* Desktop CTA */}
