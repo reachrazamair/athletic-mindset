@@ -28,39 +28,52 @@ interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
+/**
+ * Resolve the current user from the stored token without touching React state.
+ * Returns the user if the token is valid, otherwise clears it and returns null.
+ */
+async function resolveSession(): Promise<User | null> {
+  if (typeof window === "undefined") return null;
+
+  const token = localStorage.getItem(TOKEN_KEY);
+  if (!token) return null;
+
+  const result = await getMe();
+
+  if (result.data) {
+    localStorage.setItem(USER_KEY, JSON.stringify(result.data));
+    return result.data;
+  }
+
+  // Token invalid or expired — clear the session.
+  localStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem(USER_KEY);
+  return null;
+}
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Pull the freshest user from the backend using the stored token.
-  const refresh = useCallback(async () => {
-    const token = localStorage.getItem(TOKEN_KEY);
-
-    if (!token) {
-      setUser(null);
+  // Verify the session once on mount. State is only set inside the promise
+  // callback, never synchronously, so we avoid cascading renders.
+  useEffect(() => {
+    let active = true;
+    resolveSession().then((resolved) => {
+      if (!active) return;
+      setUser(resolved);
       setIsLoading(false);
-      return;
-    }
-
-    const result = await getMe();
-
-    if (result.data) {
-      setUser(result.data);
-      localStorage.setItem(USER_KEY, JSON.stringify(result.data));
-    } else {
-      // Token invalid or expired — clear the session.
-      localStorage.removeItem(TOKEN_KEY);
-      localStorage.removeItem(USER_KEY);
-      setUser(null);
-    }
-
-    setIsLoading(false);
+    });
+    return () => {
+      active = false;
+    };
   }, []);
 
-  // Verify the session once on mount.
-  useEffect(() => {
-    void refresh();
-  }, [refresh]);
+  // Re-pull the user from the backend (e.g. after a role change).
+  const refresh = useCallback(async () => {
+    const resolved = await resolveSession();
+    setUser(resolved);
+  }, []);
 
   const login = useCallback((token: string, nextUser: User) => {
     localStorage.setItem(TOKEN_KEY, token);

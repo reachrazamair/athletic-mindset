@@ -13,11 +13,16 @@ export default function SignupPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSignup = async (email: string, password: string) => {
+  const handleSignup = async (data: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+  }) => {
     setError(null);
     setIsLoading(true);
 
-    const result = await register(email, password);
+    const result = await register(data.email, data.password, data.firstName, data.lastName);
 
     if (result.error) {
       setError(result.error);

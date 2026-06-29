@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { useAuth } from "@/lib/auth-context";
+import { ProfileMenu } from "@/components/layout/ProfileMenu";
 
 const navLinks = [
   { label: "Athletes", href: "/athletes" },
@@ -15,6 +17,7 @@ const navLinks = [
 
 export function Navbar() {
   const pathname = usePathname();
+  const { isAuthenticated, isLoading } = useAuth();
 
   return (
     <motion.header
@@ -72,18 +75,27 @@ export function Navbar() {
 
           {/* Desktop CTA */}
           <div className="flex items-center gap-4">
-            <Link
-              href="/login"
-              className="text-sm text-text-secondary hover:text-text-primary transition-colors"
-            >
-              Login
-            </Link>
-            <Link
-              href="#assessment"
-              className="rounded-full bg-primary px-5 py-2 text-sm font-medium text-white hover:bg-primary-light transition-all duration-200 hover:shadow-[0_0_20px_rgba(37,99,235,0.4)]"
-            >
-              Take Assessment
-            </Link>
+            {isLoading ? (
+              // Reserve space while we verify the session to avoid layout flicker
+              <div className="h-8 w-8 rounded-full bg-surface-card/50 animate-pulse" />
+            ) : isAuthenticated ? (
+              <ProfileMenu />
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="text-sm text-text-secondary hover:text-text-primary transition-colors"
+                >
+                  Login
+                </Link>
+                <Link
+                  href="#assessment"
+                  className="rounded-full bg-primary px-5 py-2 text-sm font-medium text-white hover:bg-primary-light transition-all duration-200 hover:shadow-[0_0_20px_rgba(37,99,235,0.4)]"
+                >
+                  Take Assessment
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </nav>

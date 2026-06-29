@@ -6,12 +6,19 @@ import { Eye, EyeOff, ArrowRight, Loader2 } from "lucide-react";
 import Link from "next/link";
 
 interface SignupFormProps {
-  onSubmit: (email: string, password: string) => Promise<void>;
+  onSubmit: (data: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+  }) => Promise<void>;
   isLoading: boolean;
   error: string | null;
 }
 
 export function SignupForm({ onSubmit, isLoading, error }: SignupFormProps) {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -32,7 +39,7 @@ export function SignupForm({ onSubmit, isLoading, error }: SignupFormProps) {
       return;
     }
 
-    await onSubmit(email, password);
+    await onSubmit({ firstName, lastName, email, password });
   };
 
   const displayError = localError || error;
@@ -56,6 +63,42 @@ export function SignupForm({ onSubmit, isLoading, error }: SignupFormProps) {
         </motion.div>
       )}
 
+      {/* Name */}
+      <div className="grid grid-cols-2 gap-3">
+        <div>
+          <label htmlFor="first-name" className="block text-sm font-medium text-text-secondary mb-2">
+            First name
+          </label>
+          <input
+            id="first-name"
+            type="text"
+            required
+            autoComplete="given-name"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            className="w-full rounded-xl border border-border/50 bg-surface-card/50 px-4 py-3.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/30 transition-all"
+            placeholder="Jordan"
+            disabled={isLoading}
+          />
+        </div>
+        <div>
+          <label htmlFor="last-name" className="block text-sm font-medium text-text-secondary mb-2">
+            Last name
+          </label>
+          <input
+            id="last-name"
+            type="text"
+            required
+            autoComplete="family-name"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            className="w-full rounded-xl border border-border/50 bg-surface-card/50 px-4 py-3.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/30 transition-all"
+            placeholder="Lee"
+            disabled={isLoading}
+          />
+        </div>
+      </div>
+
       {/* Email */}
       <div>
         <label htmlFor="signup-email" className="block text-sm font-medium text-text-secondary mb-2">
@@ -65,6 +108,7 @@ export function SignupForm({ onSubmit, isLoading, error }: SignupFormProps) {
           id="signup-email"
           type="email"
           required
+          autoComplete="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="w-full rounded-xl border border-border/50 bg-surface-card/50 px-4 py-3.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/30 transition-all"

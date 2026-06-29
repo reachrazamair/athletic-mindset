@@ -65,10 +65,20 @@ export async function login(email: string, password: string): Promise<ApiRespons
   });
 }
 
-export async function register(email: string, password: string): Promise<ApiResponse<AuthResponse>> {
+export async function register(
+  email: string,
+  password: string,
+  firstName?: string,
+  lastName?: string,
+): Promise<ApiResponse<AuthResponse>> {
   return request<AuthResponse>("/auth/register", {
     method: "POST",
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({
+      email,
+      password,
+      first_name: firstName || null,
+      last_name: lastName || null,
+    }),
   });
 }
 
