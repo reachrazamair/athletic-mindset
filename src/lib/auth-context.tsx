@@ -70,6 +70,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
+  // When the API layer detects an expired/rejected token, drop the user so the
+  // UI (navbar, etc.) reflects the logged-out state right away.
+  useEffect(() => {
+    const handleExpired = () => setUser(null);
+    window.addEventListener("auth:expired", handleExpired);
+    return () => window.removeEventListener("auth:expired", handleExpired);
+  }, []);
+
   // Re-pull the user from the backend (e.g. after a role change).
   const refresh = useCallback(async () => {
     const resolved = await resolveSession();

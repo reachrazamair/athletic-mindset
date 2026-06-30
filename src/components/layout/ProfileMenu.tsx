@@ -53,7 +53,7 @@ export function ProfileMenu() {
     setConfirmOpen(false);
     logout();
     // Full reload so the app boots fresh and replays the intro animation
-    window.location.href = "/";
+    window.location.assign("/");
   };
 
   return (

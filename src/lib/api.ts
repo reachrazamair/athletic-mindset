@@ -4,14 +4,26 @@
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
+const TOKEN_KEY = "token";
+const USER_KEY = "user";
+
 interface ApiResponse<T> {
   data?: T;
   error?: string;
 }
 
-async function request<T>(endpoint: string, options: RequestInit = {}): Promise<ApiResponse<T>> {
+interface RequestExtras {
+  /** Skip the redirect-to-login on a 401 (used for silent/background checks). */
+  suppressAuthRedirect?: boolean;
+}
+
+async function request<T>(
+  endpoint: string,
+  options: RequestInit = {},
+  extras: RequestExtras = {},
+): Promise<ApiResponse<T>> {
   try {
-    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    const token = typeof window !== "undefined" ? localStorage.getItem(TOKEN_KEY) : null;
 
     const res = await fetch(`${API_URL}${endpoint}`, {
       ...options,
@@ -25,6 +37,20 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
     const body = await res.json();
 
     if (!res.ok) {
+      // A 401 on a request we authenticated means our token was rejected or
+      // expired — end the session. (A 401 with no token is just a normal auth
+      // failure, e.g. wrong password on login, so we leave it alone.)
+      if (res.status === 401 && token && typeof window !== "undefined") {
+        localStorage.removeItem(TOKEN_KEY);
+        localStorage.removeItem(USER_KEY);
+        // Let the app (navbar, etc.) react immediately.
+        window.dispatchEvent(new Event("auth:expired"));
+        // Bounce to login unless this was a background check or we're already there.
+        if (!extras.suppressAuthRedirect && !window.location.pathname.startsWith("/login")) {
+          window.location.assign("/login?expired=1");
+        }
+        return { error: "Your session has expired. Please sign in again." };
+      }
       return { error: body.detail || "Something went wrong" };
     }
 
@@ -90,7 +116,8 @@ export async function setRole(role: string): Promise<ApiResponse<User>> {
 }
 
 export async function getMe(): Promise<ApiResponse<User>> {
-  return request<User>("/auth/me");
+  // Used for silent session restore + background polling — never force a redirect.
+  return request<User>("/auth/me", {}, { suppressAuthRedirect: true });
 }
 
 export interface MessageResponse {

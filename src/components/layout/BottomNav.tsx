@@ -61,13 +61,13 @@ export function BottomNav() {
     setConfirmOpen(false);
     logout();
     // Full reload so the app boots fresh and replays the intro animation
-    window.location.href = "/";
+    window.location.assign("/");
   };
 
   const handleHome = () => {
     setActiveMenu(null);
     // Full load to home so the intro animation plays, then lands on the page
-    window.location.href = "/";
+    window.location.assign("/");
   };
 
   // The Account tab links depend on whether the user is logged in.
