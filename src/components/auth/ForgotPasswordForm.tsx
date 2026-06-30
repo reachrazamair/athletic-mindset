@@ -2,29 +2,26 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { Eye, EyeOff, ArrowRight, Loader2 } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { FieldHint } from "@/components/auth/FieldHint";
 import { isValidEmail } from "@/lib/validation";
 
-interface LoginFormProps {
-  onSubmit: (email: string, password: string) => Promise<void>;
+interface ForgotPasswordFormProps {
+  onSubmit: (email: string) => Promise<void>;
   isLoading: boolean;
   error: string | null;
 }
 
-export function LoginForm({ onSubmit, isLoading, error }: LoginFormProps) {
+export function ForgotPasswordForm({ onSubmit, isLoading, error }: ForgotPasswordFormProps) {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
 
   const emailValid = isValidEmail(email);
-  const canSubmit = emailValid && password.length > 0;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!canSubmit) return;
-    await onSubmit(email, password);
+    if (!emailValid) return;
+    await onSubmit(email);
   };
 
   return (
@@ -35,7 +32,12 @@ export function LoginForm({ onSubmit, isLoading, error }: LoginFormProps) {
       transition={{ duration: 0.5, delay: 0.3 }}
       className="w-full max-w-sm space-y-5"
     >
-      {/* Error message */}
+      <div className="text-center mb-4">
+        <p className="text-sm text-text-muted">
+          Enter your email and we&apos;ll send you a link to reset it.
+        </p>
+      </div>
+
       {error && (
         <motion.div
           initial={{ opacity: 0, y: -10 }}
@@ -46,15 +48,15 @@ export function LoginForm({ onSubmit, isLoading, error }: LoginFormProps) {
         </motion.div>
       )}
 
-      {/* Email */}
       <div>
-        <label htmlFor="email" className="block text-sm font-medium text-text-secondary mb-2">
+        <label htmlFor="email" className="block text-sm font-medium text-white mb-2">
           Email
         </label>
         <input
           id="email"
           type="email"
           required
+          autoComplete="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="w-full rounded-xl border border-border/50 bg-surface-card/50 px-4 py-3.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/30 transition-all"
@@ -69,44 +71,9 @@ export function LoginForm({ onSubmit, isLoading, error }: LoginFormProps) {
         />
       </div>
 
-      {/* Password */}
-      <div>
-        <div className="flex items-center justify-between mb-2">
-          <label htmlFor="password" className="block text-sm font-medium text-text-secondary">
-            Password
-          </label>
-          <Link
-            href="/forgot-password"
-            className="text-xs text-text-muted hover:text-primary-light transition-colors"
-          >
-            Forgot password?
-          </Link>
-        </div>
-        <div className="relative">
-          <input
-            id="password"
-            type={showPassword ? "text" : "password"}
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full rounded-xl border border-border/50 bg-surface-card/50 px-4 py-3.5 pr-11 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/30 transition-all"
-            placeholder="••••••••"
-            disabled={isLoading}
-          />
-          <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-secondary transition-colors"
-          >
-            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-          </button>
-        </div>
-      </div>
-
-      {/* Submit */}
       <motion.button
         type="submit"
-        disabled={isLoading || !canSubmit}
+        disabled={isLoading || !emailValid}
         className="w-full group flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3.5 text-sm font-semibold text-white hover:bg-primary-light transition-all duration-300 hover:shadow-[0_0_25px_rgba(37,99,235,0.4)] disabled:opacity-50 disabled:cursor-not-allowed"
         whileTap={{ scale: 0.98 }}
       >
@@ -114,17 +81,16 @@ export function LoginForm({ onSubmit, isLoading, error }: LoginFormProps) {
           <Loader2 size={18} className="animate-spin" />
         ) : (
           <>
-            Sign In
+            Send Reset Link
             <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
           </>
         )}
       </motion.button>
 
-      {/* Signup link */}
       <p className="text-center text-sm text-text-muted pt-2">
-        Don&apos;t have an account?{" "}
-        <Link href="/signup" className="text-primary-light hover:text-white transition-colors font-medium">
-          Create one
+        Remembered it?{" "}
+        <Link href="/login" className="text-primary-light hover:text-white transition-colors font-medium">
+          Back to sign in
         </Link>
       </p>
     </motion.form>

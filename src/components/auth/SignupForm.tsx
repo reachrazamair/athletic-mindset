@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { Eye, EyeOff, ArrowRight, Loader2 } from "lucide-react";
 import Link from "next/link";
+import { FieldHint } from "@/components/auth/FieldHint";
+import { isValidEmail, isValidPassword, MIN_PASSWORD_LENGTH } from "@/lib/validation";
 
 interface SignupFormProps {
   onSubmit: (data: {
@@ -25,20 +27,20 @@ export function SignupForm({ onSubmit, isLoading, error }: SignupFormProps) {
   const [showPassword, setShowPassword] = useState(false);
   const [localError, setLocalError] = useState<string | null>(null);
 
+  const emailValid = isValidEmail(email);
+  const passwordValid = isValidPassword(password);
+  const confirmValid = confirmPassword.length > 0 && confirmPassword === password;
+  const canSubmit =
+    firstName.trim().length > 0 &&
+    lastName.trim().length > 0 &&
+    emailValid &&
+    passwordValid &&
+    confirmValid;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLocalError(null);
-
-    if (password !== confirmPassword) {
-      setLocalError("Passwords don't match");
-      return;
-    }
-
-    if (password.length < 8) {
-      setLocalError("Password must be at least 8 characters");
-      return;
-    }
-
+    if (!canSubmit) return;
     await onSubmit({ firstName, lastName, email, password });
   };
 
@@ -115,6 +117,12 @@ export function SignupForm({ onSubmit, isLoading, error }: SignupFormProps) {
           placeholder="you@email.com"
           disabled={isLoading}
         />
+        <FieldHint
+          value={email}
+          valid={emailValid}
+          invalidText="Enter a valid email address"
+          validText="Looks good"
+        />
       </div>
 
       {/* Password */}
@@ -141,6 +149,12 @@ export function SignupForm({ onSubmit, isLoading, error }: SignupFormProps) {
             {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
           </button>
         </div>
+        <FieldHint
+          value={password}
+          valid={passwordValid}
+          invalidText={`Must be at least ${MIN_PASSWORD_LENGTH} characters`}
+          validText="Password looks good"
+        />
       </div>
 
       {/* Confirm Password */}
@@ -158,12 +172,18 @@ export function SignupForm({ onSubmit, isLoading, error }: SignupFormProps) {
           placeholder="••••••••"
           disabled={isLoading}
         />
+        <FieldHint
+          value={confirmPassword}
+          valid={confirmValid}
+          invalidText="Passwords don't match"
+          validText="Passwords match"
+        />
       </div>
 
       {/* Submit */}
       <motion.button
         type="submit"
-        disabled={isLoading}
+        disabled={isLoading || !canSubmit}
         className="w-full group flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3.5 text-sm font-semibold text-white hover:bg-primary-light transition-all duration-300 hover:shadow-[0_0_25px_rgba(37,99,235,0.4)] disabled:opacity-50 disabled:cursor-not-allowed"
         whileTap={{ scale: 0.98 }}
       >

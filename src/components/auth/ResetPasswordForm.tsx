@@ -3,29 +3,33 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { Eye, EyeOff, ArrowRight, Loader2 } from "lucide-react";
-import Link from "next/link";
 import { FieldHint } from "@/components/auth/FieldHint";
-import { isValidEmail } from "@/lib/validation";
+import { isValidPassword, MIN_PASSWORD_LENGTH } from "@/lib/validation";
 
-interface LoginFormProps {
-  onSubmit: (email: string, password: string) => Promise<void>;
+interface ResetPasswordFormProps {
+  onSubmit: (password: string) => Promise<void>;
   isLoading: boolean;
   error: string | null;
 }
 
-export function LoginForm({ onSubmit, isLoading, error }: LoginFormProps) {
-  const [email, setEmail] = useState("");
+export function ResetPasswordForm({ onSubmit, isLoading, error }: ResetPasswordFormProps) {
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [localError, setLocalError] = useState<string | null>(null);
 
-  const emailValid = isValidEmail(email);
-  const canSubmit = emailValid && password.length > 0;
+  const passwordValid = isValidPassword(password);
+  const confirmValid = confirmPassword.length > 0 && confirmPassword === password;
+  const canSubmit = passwordValid && confirmValid;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLocalError(null);
     if (!canSubmit) return;
-    await onSubmit(email, password);
+    await onSubmit(password);
   };
+
+  const displayError = localError || error;
 
   return (
     <motion.form
@@ -35,62 +39,34 @@ export function LoginForm({ onSubmit, isLoading, error }: LoginFormProps) {
       transition={{ duration: 0.5, delay: 0.3 }}
       className="w-full max-w-sm space-y-5"
     >
-      {/* Error message */}
-      {error && (
+      <div className="text-center mb-6">
+        <p className="text-sm text-text-muted">Choose a strong password you don&apos;t use elsewhere.</p>
+      </div>
+
+      {displayError && (
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           className="rounded-xl bg-red-500/10 border border-red-500/20 px-4 py-3"
         >
-          <p className="text-sm text-red-400">{error}</p>
+          <p className="text-sm text-red-400">{displayError}</p>
         </motion.div>
       )}
 
-      {/* Email */}
       <div>
-        <label htmlFor="email" className="block text-sm font-medium text-text-secondary mb-2">
-          Email
+        <label htmlFor="new-password" className="block text-sm font-medium text-white mb-2">
+          New password
         </label>
-        <input
-          id="email"
-          type="email"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full rounded-xl border border-border/50 bg-surface-card/50 px-4 py-3.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/30 transition-all"
-          placeholder="you@email.com"
-          disabled={isLoading}
-        />
-        <FieldHint
-          value={email}
-          valid={emailValid}
-          invalidText="Enter a valid email address"
-          validText="Looks good"
-        />
-      </div>
-
-      {/* Password */}
-      <div>
-        <div className="flex items-center justify-between mb-2">
-          <label htmlFor="password" className="block text-sm font-medium text-text-secondary">
-            Password
-          </label>
-          <Link
-            href="/forgot-password"
-            className="text-xs text-text-muted hover:text-primary-light transition-colors"
-          >
-            Forgot password?
-          </Link>
-        </div>
         <div className="relative">
           <input
-            id="password"
+            id="new-password"
             type={showPassword ? "text" : "password"}
             required
+            autoComplete="new-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="w-full rounded-xl border border-border/50 bg-surface-card/50 px-4 py-3.5 pr-11 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/30 transition-all"
-            placeholder="••••••••"
+            placeholder="Min 8 characters"
             disabled={isLoading}
           />
           <button
@@ -101,9 +77,37 @@ export function LoginForm({ onSubmit, isLoading, error }: LoginFormProps) {
             {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
           </button>
         </div>
+        <FieldHint
+          value={password}
+          valid={passwordValid}
+          invalidText={`Must be at least ${MIN_PASSWORD_LENGTH} characters`}
+          validText="Password looks good"
+        />
       </div>
 
-      {/* Submit */}
+      <div>
+        <label htmlFor="confirm-new-password" className="block text-sm font-medium text-white mb-2">
+          Confirm new password
+        </label>
+        <input
+          id="confirm-new-password"
+          type={showPassword ? "text" : "password"}
+          required
+          autoComplete="new-password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          className="w-full rounded-xl border border-border/50 bg-surface-card/50 px-4 py-3.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/30 transition-all"
+          placeholder="••••••••"
+          disabled={isLoading}
+        />
+        <FieldHint
+          value={confirmPassword}
+          valid={confirmValid}
+          invalidText="Passwords don't match"
+          validText="Passwords match"
+        />
+      </div>
+
       <motion.button
         type="submit"
         disabled={isLoading || !canSubmit}
@@ -114,19 +118,11 @@ export function LoginForm({ onSubmit, isLoading, error }: LoginFormProps) {
           <Loader2 size={18} className="animate-spin" />
         ) : (
           <>
-            Sign In
+            Reset Password
             <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
           </>
         )}
       </motion.button>
-
-      {/* Signup link */}
-      <p className="text-center text-sm text-text-muted pt-2">
-        Don&apos;t have an account?{" "}
-        <Link href="/signup" className="text-primary-light hover:text-white transition-colors font-medium">
-          Create one
-        </Link>
-      </p>
     </motion.form>
   );
 }
