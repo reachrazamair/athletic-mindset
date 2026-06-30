@@ -113,3 +113,16 @@ export async function resetPassword(
     body: JSON.stringify({ token, new_password: newPassword }),
   });
 }
+
+export async function verifyEmail(token: string): Promise<ApiResponse<AuthResponse>> {
+  return request<AuthResponse>("/auth/verify-email", {
+    method: "POST",
+    body: JSON.stringify({ token }),
+  });
+}
+
+export async function resendVerification(): Promise<ApiResponse<MessageResponse>> {
+  return request<MessageResponse>("/auth/resend-verification", {
+    method: "POST",
+  });
+}

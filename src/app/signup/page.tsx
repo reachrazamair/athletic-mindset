@@ -34,8 +34,8 @@ export default function SignupPage() {
       // Store token + sync app-wide auth state
       setSession(result.data.access_token, result.data.user);
 
-      // Go to role selection
-      router.push("/signup/role");
+      // Account created but unverified — send them to verify their email
+      router.push("/verify-email");
     }
   };
 

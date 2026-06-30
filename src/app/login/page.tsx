@@ -31,11 +31,19 @@ export default function LoginPage() {
       // Store token + sync app-wide auth state
       setSession(result.data.access_token, result.data.user);
 
+      const user = result.data.user;
+
+      // Unverified users go straight to the verify screen — no transition needed.
+      if (!user.is_verified) {
+        router.push("/verify-email");
+        return;
+      }
+
       // Show cinematic transition
       setShowTransition(true);
 
       // Route based on roles
-      const roles = result.data.user.roles.map((r) => r.role);
+      const roles = user.roles.map((r) => r.role);
 
       setTimeout(() => {
         if (roles.length === 0) {
