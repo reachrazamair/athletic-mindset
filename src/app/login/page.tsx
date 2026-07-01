@@ -56,8 +56,13 @@ function LoginInner() {
         router.push("/signup/profile");
         return;
       }
+      // Athletes land on their dashboard, which plays its own entrance animation.
+      if (isAthlete) {
+        router.push("/dashboards/athlete-dashboard");
+        return;
+      }
 
-      // Brief transition, then home.
+      // Other roles: brief transition, then home (their dashboards come later).
       setShowTransition(true);
       setTimeout(() => router.push("/"), 2500);
     }

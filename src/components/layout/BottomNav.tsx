@@ -71,8 +71,10 @@ export function BottomNav() {
   };
 
   // The Account tab links depend on whether the user is logged in.
+  const isAthlete = (user?.roles ?? []).some((r) => r.role === "athlete");
   const accountSubmenu = isAuthenticated
     ? [
+        ...(isAthlete ? [{ label: "Dashboard", href: "/dashboards/athlete-dashboard" }] : []),
         { label: "Account settings", href: "/settings" },
         { label: "Take Assessment", href: "/assessment" },
         { label: "Log out", href: "#", action: "logout" as const },

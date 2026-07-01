@@ -39,7 +39,8 @@ function OnboardingForm({ initialProfile }: { initialProfile: AthleteProfile | n
     }
 
     await refresh();
-    router.push("/");
+    // Head to the dashboard — it plays its own entrance animation on arrival.
+    router.push("/dashboards/athlete-dashboard");
   };
 
   return (
