@@ -28,7 +28,7 @@ const tiers = [
       "Sport-specific benchmarking",
     ],
     cta: "Start Free Assessment",
-    href: "#assessment",
+    href: "/assessment",
     featured: false,
   },
   {
@@ -52,7 +52,7 @@ const tiers = [
     ],
     lockedFeatures: [],
     cta: "Get Elite Access",
-    href: "#assessment",
+    href: "/assessment",
     featured: true,
   },
   {

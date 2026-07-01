@@ -25,7 +25,7 @@ const tiers = [
       "Sport-specific benchmarking",
     ],
     cta: "Start Free",
-    href: "#assessment",
+    href: "/assessment",
     featured: false,
   },
   {

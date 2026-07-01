@@ -17,7 +17,10 @@ const interTight = Inter_Tight({
 });
 
 export const metadata: Metadata = {
-  title: "Athletic Mindset | Measure Your Mental Performance",
+  title: {
+    default: "Athletic Mindset | Measure Your Mental Performance",
+    template: "%s | Athletic Mindset",
+  },
   description:
     "Psychologist-engineered mental performance assessments for athletes, parents, and coaches. Discover your Athletic Mindset across 22 dimensions.",
   keywords: [

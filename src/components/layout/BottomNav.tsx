@@ -18,11 +18,11 @@ const baseNavItems = [
   {
     icon: BarChart3,
     label: "Assessment",
-    href: "#assessment",
+    href: "/assessment",
     submenu: [
-      { label: "Take Assessment", href: "#assessment" },
-      { label: "How It Works", href: "#how-it-works" },
-      { label: "What We Measure", href: "#what-we-measure" },
+      { label: "Take Assessment", href: "/assessment" },
+      { label: "How It Works", href: "/#how-it-works" },
+      { label: "What We Measure", href: "/#what-we-measure" },
     ],
   },
   {
@@ -74,7 +74,7 @@ export function BottomNav() {
   const accountSubmenu = isAuthenticated
     ? [
         { label: "Account settings", href: "/settings" },
-        { label: "Take Assessment", href: "#assessment" },
+        { label: "Take Assessment", href: "/assessment" },
         { label: "Log out", href: "#", action: "logout" as const },
       ]
     : [

@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { ArrowRight, Loader2 } from "lucide-react";
 import { AuthLayout } from "@/components/auth/AuthLayout";
-import { AuthTransition } from "@/components/auth/AuthTransition";
 import { ProfileFormFields, profileToDraft, type ProfileDraft } from "@/components/profile/ProfileFormFields";
 import { updateAthleteProfile, type AthleteProfile } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
@@ -15,7 +14,6 @@ function OnboardingForm({ initialProfile }: { initialProfile: AthleteProfile | n
   const { refresh } = useAuth();
   const [draft, setDraft] = useState<ProfileDraft>(() => profileToDraft(initialProfile));
   const [saving, setSaving] = useState(false);
-  const [showTransition, setShowTransition] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // Core fields we ask everyone to complete before continuing.
@@ -41,20 +39,17 @@ function OnboardingForm({ initialProfile }: { initialProfile: AthleteProfile | n
     }
 
     await refresh();
-    setShowTransition(true);
-    setTimeout(() => router.push("/"), 2400);
+    router.push("/");
   };
 
   return (
-    <>
-      <AuthTransition show={showTransition} message="Personalizing your experience..." />
-      <motion.form
-        onSubmit={handleSubmit}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="w-full max-w-md"
-      >
+    <motion.form
+      onSubmit={handleSubmit}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 0.2 }}
+      className="w-full max-w-md"
+    >
         <div className="text-center mb-7">
           <h1 className="text-xl md:text-2xl font-bold text-text-primary mb-1.5">
             Tell us about your game
@@ -96,7 +91,6 @@ function OnboardingForm({ initialProfile }: { initialProfile: AthleteProfile | n
           Skip for now
         </button>
       </motion.form>
-    </>
   );
 }
 

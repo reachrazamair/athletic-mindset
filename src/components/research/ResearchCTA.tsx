@@ -27,7 +27,7 @@ export function ResearchCTA() {
             into a personalized mental performance profile.
           </p>
           <Link
-            href="#assessment"
+            href="/assessment"
             className="group inline-flex items-center gap-2 rounded-full bg-primary px-8 py-4 text-base font-semibold text-white hover:bg-primary-light transition-all duration-300 hover:shadow-[0_0_30px_rgba(37,99,235,0.5)] hover:scale-[1.02] active:scale-[0.98]"
           >
             Take Free Assessment

@@ -25,7 +25,7 @@ const tiers = [
       "Progress tracking over time",
     ],
     cta: "Start Free",
-    href: "#assessment",
+    href: "/assessment",
     featured: false,
   },
   {

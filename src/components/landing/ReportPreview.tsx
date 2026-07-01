@@ -169,7 +169,7 @@ export function ReportPreview() {
                     Take the assessment to unlock your full Gameplan
                   </p>
                   <Link
-                    href="#assessment"
+                    href="/assessment"
                     className="group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-2.5 text-sm font-medium text-white hover:bg-primary-light transition-all hover:shadow-[0_0_20px_rgba(37,99,235,0.4)] active:scale-95"
                   >
                     Get My Report

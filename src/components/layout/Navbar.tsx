@@ -89,7 +89,7 @@ export function Navbar() {
                   Login
                 </Link>
                 <Link
-                  href="#assessment"
+                  href="/assessment"
                   className="rounded-full bg-primary px-5 py-2 text-sm font-medium text-white hover:bg-primary-light transition-all duration-200 hover:shadow-[0_0_20px_rgba(37,99,235,0.4)]"
                 >
                   Take Assessment

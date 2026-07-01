@@ -194,7 +194,7 @@ export function SolutionsFor() {
               ))}
             </ul>
             <Link
-              href="#assessment"
+              href="/assessment"
               className="group inline-flex items-center gap-2 text-primary-light font-medium hover:text-white transition-colors"
             >
               Get Started Free

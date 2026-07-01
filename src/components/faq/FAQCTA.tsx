@@ -38,7 +38,7 @@ export function FAQCTA() {
               />
             </Link>
             <Link
-              href="#assessment"
+              href="/assessment"
               className="rounded-full border border-border-light px-7 py-3.5 text-sm font-semibold text-text-primary hover:border-primary/50 transition-all duration-300"
             >
               Take Free Assessment

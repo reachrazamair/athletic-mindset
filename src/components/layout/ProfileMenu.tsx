@@ -107,7 +107,7 @@ export function ProfileMenu() {
                 Account settings
               </Link>
               <Link
-                href="#assessment"
+                href="/assessment"
                 onClick={() => setOpen(false)}
                 role="menuitem"
                 className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-text-secondary hover:text-text-primary hover:bg-surface-card/80 transition-all"
